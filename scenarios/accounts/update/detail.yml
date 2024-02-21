@@ -1,0 +1,60 @@
+desc: アカウント更新のシナリオ詳細
+if: included
+steps:
+  setup:
+    if: "vars.req.accountId == null" # accountId が指定されていない場合のみセットアップ
+    desc: セットアップ
+    include:
+      path:
+        ../create/base.yml
+      vars:
+        req: {
+          "body": {
+            "email": "example@example.com",
+            "name": "あいうえお",
+            "namePronunciation": "アイウエオ",
+            "password": "string"
+          }
+        }
+        res: {
+          "status": 201,
+          "body": {
+            "email": "example@example.com",
+            "name": "あいうえお",
+            "namePronunciation": "アイウエオ",
+            "password": "*****"
+          }
+        }
+  update:
+    if: "vars.req.accountId == null"
+    desc: 更新
+    include:
+      path:
+        base.yml
+      vars:
+        accountId: "{{ steps.setup.steps.create.res.body.accountId }}"
+        req: "{{ vars.req }}"
+        res: "{{ vars.res }}"
+  updateWithId:
+    if: "vars.req.accountId != null"
+    desc: 更新
+    include:
+      path:
+        base.yml
+      vars:
+        accountId: "{{ vars.req.accountId }}"
+        req: "{{ vars.req }}"
+        res: "{{ vars.res }}"
+  cleanup:
+    if: "vars.req.accountId == null" # accountId が指定されていない場合のみクリーンアップ
+    desc: クリーンアップ
+    include:
+      path:
+        ../delete/base.yml
+      vars:
+        accountId: "{{ steps.setup.steps.create.res.body.accountId }}"
+        req: {
+        }
+        res: {
+          "status": 200
+        }

@@ -1,0 +1,23 @@
+desc: アカウント更新のシナリオベース
+if: included
+runners:
+  req:
+    endpoint: ${END_POINT:-http://localhost:8080}
+    # openapi3: path/to/openapi.yaml TODO OpenAPI3のパスを指定するとよい
+steps:
+  update:
+    desc: アカウントを更新する
+    req:
+      /accounts/{{ vars.accountId }}:
+        put:
+          headers:
+            Content-Type: "application/json"
+          body:
+            application/json: "{{ vars.req.body }}"
+    test: |
+      compare(steps.update.res.status, vars.res.status)
+        && (
+          steps.update.res.status == 200
+            ? compare(steps.update.res.body, vars.res.body, "accountId", "createdAt", "deletedAt", "updatedAt")
+            : compare(steps.update.res.body, vars.res.body)
+        )

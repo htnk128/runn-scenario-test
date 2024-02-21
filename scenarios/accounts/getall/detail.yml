@@ -1,0 +1,46 @@
+desc: すべてのアカウント取得のシナリオ詳細
+if: included
+steps:
+  setup:
+    desc: セットアップ
+    include:
+      path:
+        ../create/base.yml
+      vars:
+        req: {
+          "body": {
+            "email": "example@example.com",
+            "name": "あいうえお",
+            "namePronunciation": "アイウエオ",
+            "password": "string"
+          }
+        }
+        res: {
+          "status": 201,
+          "body": {
+            "email": "example@example.com",
+            "name": "あいうえお",
+            "namePronunciation": "アイウエオ",
+            "password": "*****"
+          }
+        }
+  getAll:
+    desc: すべて取得
+    include:
+      path:
+        base.yml
+      vars:
+        req: "{{ vars.req }}"
+        res: "{{ vars.res }}"
+  cleanup:
+    desc: クリーンアップ
+    include:
+      path:
+        ../delete/base.yml
+      vars:
+        accountId: "{{ steps.setup.steps.create.res.body.accountId }}"
+        req: {
+        }
+        res: {
+          "status": 200
+        }

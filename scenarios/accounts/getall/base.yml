@@ -1,0 +1,21 @@
+desc: すべてのアカウント取得のシナリオベース
+if: included
+runners:
+  req:
+    endpoint: ${END_POINT:-http://localhost:8080}
+    # openapi3: path/to/openapi.yaml TODO OpenAPI3のパスを指定するとよい
+steps:
+  getAll:
+    desc: すべてのアカウントを取得する
+    req:
+      /accounts:
+        get:
+          body:
+            application/json: null
+    test: |
+      compare(steps.getAll.res.status, vars.res.status)
+        && (
+          steps.getAll.res.status == 200
+            ? len(steps.getAll.res.body.data) > 0
+            : compare(steps.getAll.res.body, vars.res.body)
+        )

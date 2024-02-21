@@ -1,0 +1,14 @@
+desc: すべてのアカウント取得のシナリオ
+vars:
+  data: "json://data.json"
+steps:
+  getAllAccount:
+    desc: すべてのアカウント取得
+    loop:
+      count: len(vars.data)
+    include:
+      path:
+        detail.yml
+      vars:
+        req: "{{ vars.data[i].req }}"
+        res: "{{ vars.data[i].res }}"

@@ -1,0 +1,24 @@
+desc: アカウント作成のシナリオ詳細
+if: included
+steps:
+  create:
+    desc: 作成
+    include:
+      path:
+        base.yml
+      vars:
+        req: "{{ vars.req }}"
+        res: "{{ vars.res }}"
+  cleanup:
+    if: "steps.create.steps.create.res.status == 201" # 登録成功時のみクリーンアップ
+    desc: クリーンアップ
+    include:
+      path:
+        ../delete/base.yml
+      vars:
+        accountId: "{{ steps.create.steps.create.res.body.accountId }}"
+        req: {
+        }
+        res: {
+          "status": 200
+        }

@@ -1,0 +1,21 @@
+desc: アカウント取得のシナリオベース
+if: included
+runners:
+  req:
+    endpoint: ${END_POINT:-http://localhost:8080}
+    # openapi3: path/to/openapi.yaml TODO OpenAPI3のパスを指定するとよい
+steps:
+  get:
+    desc: アカウントを取得する
+    req:
+      /accounts/{{ vars.accountId }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      compare(steps.get.res.status, vars.res.status)
+        && (
+          steps.get.res.status == 200
+            ? compare(steps.get.res.body, vars.res.body, "accountId", "createdAt", "deletedAt", "updatedAt")
+            : compare(steps.get.res.body, vars.res.body)
+        )

@@ -1,0 +1,14 @@
+desc: アカウント更新のシナリオ
+vars:
+  data: "json://data.json"
+steps:
+  updateAccount:
+    desc: アカウント更新
+    loop:
+      count: len(vars.data)
+    include:
+      path:
+        detail.yml
+      vars:
+        req: "{{ vars.data[i].req }}"
+        res: "{{ vars.data[i].res }}"

@@ -1,0 +1,14 @@
+desc: アカウント削除のシナリオ
+vars:
+  data: "json://data.json"
+steps:
+  deleteAccount:
+    desc: アカウント削除
+    loop:
+      count: len(vars.data)
+    include:
+      path:
+        detail.yml
+      vars:
+        req: "{{ vars.data[i].req }}"
+        res: "{{ vars.data[i].res }}"

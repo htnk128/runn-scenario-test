@@ -1,0 +1,23 @@
+desc: アカウント作成のシナリオベース
+if: included
+runners:
+  req:
+    endpoint: ${END_POINT:-http://localhost:8080}
+    # openapi3: path/to/openapi.yaml TODO OpenAPI3のパスを指定するとよい
+steps:
+  create:
+    desc: アカウントを作成する
+    req:
+      /accounts:
+        post:
+          headers:
+            Content-Type: "application/json"
+          body:
+            application/json: "{{ vars.req.body }}"
+    test: |
+      compare(steps.create.res.status, vars.res.status)
+        && (
+          steps.create.res.status == 201
+            ? compare(steps.create.res.body, vars.res.body, "accountId", "createdAt", "deletedAt", "updatedAt")
+            : compare(steps.create.res.body, vars.res.body)
+        )

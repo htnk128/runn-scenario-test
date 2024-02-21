@@ -1,0 +1,31 @@
+[
+  {
+    "req": {
+      "accountId": null
+    },
+    "res": {
+      "status": 200,
+      "body": {
+        "email": "example@example.com",
+        "name": "あいうえお",
+        "namePronunciation": "アイウエオ",
+        "password": "*****"
+      }
+    }
+  },
+  {
+    "req": {
+      "accountId": "AC_abc"
+    },
+    "res": {
+      "status": 404,
+      "body": {
+        "error": {
+          "type": "not_found_error",
+          "status": 404,
+          "message": "Account not found. (accountId=AC_abc)"
+        }
+      }
+    }
+  }
+]

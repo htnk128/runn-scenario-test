@@ -1,0 +1,21 @@
+desc: アカウント削除のシナリオベース
+if: included
+runners:
+  req:
+    endpoint: ${END_POINT:-http://localhost:8080}
+    # openapi3: path/to/openapi.yaml TODO OpenAPI3のパスを指定するとよい
+steps:
+  delete:
+    desc: アカウントを削除する
+    req:
+      /accounts/{{ vars.accountId }}:
+        delete:
+          body:
+            application/json: null
+    test: |
+      compare(steps.delete.res.status, vars.res.status)
+        && (
+          steps.delete.res.status == 200
+            ? true
+            : compare(steps.delete.res.body, vars.res.body)
+        )

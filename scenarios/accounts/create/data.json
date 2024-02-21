@@ -1,0 +1,41 @@
+[
+  {
+    "req": {
+      "body": {
+        "email": "example@example.com",
+        "name": "あいうえお",
+        "namePronunciation": "アイウエオ",
+        "password": "string"
+      }
+    },
+    "res": {
+      "status": 201,
+      "body": {
+        "email": "example@example.com",
+        "name": "あいうえお",
+        "namePronunciation": "アイウエオ",
+        "password": "*****"
+      }
+    }
+  },
+  {
+    "req": {
+      "body": {
+        "email": "11111111112222222222333333333344444444445555555555666666666677777777778888888888999999999900000000001",
+        "name": "あいうえお",
+        "namePronunciation": "アイウエオ",
+        "password": "string"
+      }
+    },
+    "res": {
+      "status": 400,
+      "body": {
+        "error": {
+          "type": "invalid_request_error",
+          "status": 400,
+          "message": "Email must be 100 characters or less."
+        }
+      }
+    }
+  }
+]
